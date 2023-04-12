@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async (req,res) => {
     }
 })
  
-
+// login part
 const authUser = asyncHandler(async(req,res) => {
     const { email, password } = req.body;
 
@@ -58,4 +58,11 @@ const authUser = asyncHandler(async(req,res) => {
         throw new Error("Invalid Email or password")
     }
 })
-module.exports = {registerUser,authUser}
+
+
+
+// to get all user
+const allUser = asyncHandler(async(req,res) => {
+     
+})
+module.exports = {registerUser,authUser,allUser}
