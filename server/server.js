@@ -4,19 +4,19 @@ const { data } = require("./data/data");
 const ConnectDB = require("./Config/db");
 const userRoutes = require("./Routes/userRoutes");
 const { notFound, errorHandler } = require("./Middlewares/errorMiddleware");
-const chatRoutes = require("./Routes/userRoutes")
+const chatRoutes = require("./Routes/chatRoutes")
 dotenv.config()
 
 ConnectDB()
-const app = express();
+const app = express(); 
 
-app.use(express.json())
+app.use(express.json()) // to accept JSON data from frontend
 app.get("/", (req, res) => {
     res.send("API of chit chat is running")
 })
 
 app.use('/api/user', userRoutes)
-app.use('/api/chats', chatRoutes )
+app.use('/api/chat', chatRoutes )
 
 app.use( notFound )
 app.use( errorHandler )

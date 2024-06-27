@@ -61,18 +61,18 @@ const authUser = asyncHandler(async(req,res) => {
 
 
 
-// to get all user
+// to get all user ROUTE = /apiluser?search=harsha(name or search value)
 const allUser = asyncHandler(async(req,res) => {
-    const keyw = req.query.search ? {
+    const keyword = req.query.search ? {
         $or: [
             { name: { $regex: req.query.search, $options: "i" } },
             { email: { $regex: req.query.search, $options: "i" } }
             
         ],
     }
-        : {};  
+    : {};  
     
-    const users = await User.find(keyw).find({ _id: { $ne: req.user._id } })
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } })
     res.send(users)
 })
 module.exports = {registerUser,authUser,allUser}

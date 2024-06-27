@@ -33,7 +33,7 @@ const Signup = () => {
         if (pic.type === 'image/jpeg' || pic.type === "image/png") {
             const data = new FormData()
             data.append("file", pic);
-            data.append("upload_preset", "chit-chat");
+            data.append("upload_preset", "chat-chat");
             data.append("cloude_name", "dbybrcscs");
             fetch("https://api.cloudinary.com/v1_1/dbybrcscs/image/upload", {
                 method: 'post',
