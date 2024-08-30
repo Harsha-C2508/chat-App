@@ -17,20 +17,19 @@ import {
   DrawerOverlay,
 } from "@chakra-ui/modal";
 import { Tooltip } from "@chakra-ui/tooltip";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
-import { Avatar } from "@chakra-ui/avatar";
+import { BellIcon, DragHandleIcon } from "@chakra-ui/icons";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
-// import ChatLoading from "../ChatLoading";
+import ChatLoading from "../ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
-// import ProfileModal from "./ProfileModal";
-// import NotificationBadge from "react-notification-badge";
-// import { Effect } from "react-notification-badge";
-// import { getSender } from "../../config/ChatLogics";
-// import UserListItem from "../userAvatar/UserListItem";
-import { ChatState } from "../../Context/ChatProvider";
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
+import { getSender } from "../../../config/ChatLogics";
+import { ChatState } from "../../../Context/ChatProvider";
+import ProfileModel from "./ProfileModel";
+import UserListItem from "../userAvatar/UserListItem";
 
 
 const SideDrawer = () => {
@@ -44,8 +43,8 @@ const SideDrawer = () => {
       user,
       notification,
       setNotification,
-      chats,
-      setChats,
+      chats, 
+      setChats
     } = ChatState();
   
     const toast = useToast();
@@ -54,9 +53,9 @@ const SideDrawer = () => {
   
     const logoutHandler = () => {
       localStorage.removeItem("userInfo");
-      history.push("/");
+      history("/");
     };
-  
+    console.log(user);
     const handleSearch = async () => {
       if (!search) {
         toast({
@@ -79,7 +78,6 @@ const SideDrawer = () => {
         };
   
         const { data } = await axios.get(`/api/user?search=${search}`, config);
-  
         setLoading(false);
         setSearchResult(data);
       } catch (error) {
@@ -95,14 +93,12 @@ const SideDrawer = () => {
     };
   
     const accessChat = async (userId) => {
-      console.log(userId);
-  
       try {
         setLoadingChat(true);
         const config = {
           headers: {
             "Content-type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+             Authorization: `Bearer ${user.token}`,
           },
         };
         const { data } = await axios.post(`/api/chat`, { userId }, config);
@@ -126,7 +122,7 @@ const SideDrawer = () => {
     return (
       <>
         <Box
-          d="flex"
+          display="flex"
           justifyContent="space-between"
           alignItems="center"
           bg="white"
@@ -143,15 +139,15 @@ const SideDrawer = () => {
             </Button>
           </Tooltip>
           <Text fontSize="2xl" fontFamily="Work sans">
-            Talk-A-Tive
+            Chit & Chat
           </Text>
           <div>
             <Menu>
               <MenuButton p={1}>
-                {/* <NotificationBadge
+                <NotificationBadge
                   count={notification.length}
-                //   effect={Effect.SCALE}
-                /> */}
+                  effect={Effect.SCALE}
+                />
                 <BellIcon fontSize="2xl" m={1} />
               </MenuButton>
               <MenuList pl={2}>
@@ -166,26 +162,23 @@ const SideDrawer = () => {
                   >
                     {notif.chat.isGroupChat
                       ? `New Message in ${notif.chat.chatName}`
-                      : `New Message`
-                      //   `New Message from ${getSender(user, notif.chat.users)}`
+                      : `New Message from ${getSender(user, notif.chat.users)}`
                     }
                   </MenuItem>
                 ))}
               </MenuList>
             </Menu>
             <Menu>
-              <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
-                <Avatar
-                  size="sm"
-                  cursor="pointer"
-                  name={user.name}
-                  src={user.pic}
-                />
+              <MenuButton 
+                as={Button} 
+                bg="white" 
+              >
+                <DragHandleIcon />
               </MenuButton>
               <MenuList>
-                {/* <ProfileModal user={user}>
+                <ProfileModel userInfo={user}>
                   <MenuItem>My Profile</MenuItem>{" "}
-                </ProfileModal> */}
+                </ProfileModel>
                 <MenuDivider />
                 <MenuItem onClick={logoutHandler}>Logout</MenuItem>
               </MenuList>
@@ -198,7 +191,7 @@ const SideDrawer = () => {
           <DrawerContent>
             <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
             <DrawerBody>
-              <Box d="flex" pb={2}>
+              <Box display="flex" pb={2}>
                 <Input
                   placeholder="Search by name or email"
                   mr={2}
@@ -208,16 +201,14 @@ const SideDrawer = () => {
                 <Button onClick={handleSearch}>Go</Button>
               </Box>
               {loading ? (
-                // <ChatLoading />
-                <div>{loading}</div>
+                <ChatLoading/>
               ) : (
-                searchResult?.map((user) => (
-                //   <UserListItem
-                //     key={user._id}
-                //     user={user}
-                //     handleFunction={() => accessChat(user._id)}
-                //   />
-                 <div>{user}</div>
+                searchResult?.map((users) => (
+                  <UserListItem
+                    key={users._id}
+                    user={users}
+                    handleFunction={() => accessChat(users._id)}
+                  />
                 ))
               )}
               {loadingChat && <Spinner ml="auto" d="flex" />}

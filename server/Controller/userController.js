@@ -61,7 +61,7 @@ const authUser = asyncHandler(async(req,res) => {
 
 
 
-// to get all user ROUTE = /apiluser?search=harsha(name or search value)
+// to get all user ROUTE = /api/user?search=harsha(name or search value)
 const allUser = asyncHandler(async(req,res) => {
     const keyword = req.query.search ? {
         $or: [

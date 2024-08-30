@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import { Box, Container,Tab,TabList,TabPanel,TabPanels,Tabs,Text } from '@chakra-ui/react'
 import Login from '../components/Authentication/Login'
 import Signup from '../components/Authentication/Signup'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+
 
 const HomePage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(()=>{
       const user = JSON.parse(localStorage.getItem("userInfo"));

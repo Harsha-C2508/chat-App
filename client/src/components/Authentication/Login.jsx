@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { Button, FormControl, FormLabel,useToast, Input, InputGroup, InputRightElement, VStack } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
+
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [show, setShow] = useState(false)
     const [loading,setLoading] = useState(false)
     const toast = useToast()
-    const navigate = useNavigate()
+    const navigate = useNavigate();
      
     const handleShow = () => {
         setShow(!show)
@@ -48,7 +49,6 @@ const Login = () => {
             });
             localStorage.setItem("userInfo", JSON.stringify(data));
             setLoading(false);
-            // history.push("/chats");
             navigate("/chats")
         } catch (err) {
              toast({
