@@ -3,7 +3,7 @@ import { Button, IconButton, Image, Modal, ModalBody, ModalCloseButton, ModalCon
 import React from 'react'
 
 const ProfileModel = ({userInfo, children}) => {
-    console.log(userInfo)
+
     const { isOpen, onOpen, onClose} = useDisclosure();
   return (
     <>

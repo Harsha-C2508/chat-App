@@ -55,7 +55,7 @@ const SideDrawer = () => {
       localStorage.removeItem("userInfo");
       history("/");
     };
-    console.log(user);
+
     const handleSearch = async () => {
       if (!search) {
         toast({

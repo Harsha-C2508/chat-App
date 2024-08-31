@@ -47,7 +47,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-      console.log(data);
+
       setSearchResult(data);
     } catch (error) {
       toast({
@@ -61,6 +61,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setLoading(false);
     } finally{
       setLoading(false);
+      setSearch("");
     }
   };
 
@@ -78,7 +79,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         `/api/chat/rename`,
         {
           chatId: selectedChat._id,
-          chatName: groupChatName,
+          groupName: groupChatName,
         },
         config
       );
@@ -95,8 +96,9 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         position: "bottom",
       });
       setRenameLoading(false);
+    } finally{
+      setGroupChatName("");
     }
-    setGroupChatName("");
   };
 
   const handleAddUser = async (user1) => {

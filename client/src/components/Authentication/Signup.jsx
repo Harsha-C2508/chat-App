@@ -42,7 +42,7 @@ const Signup = () => {
                 .then((res) => res.json())
                 .then(data => {
                     setPic(data.url.toString());
-                    console.log(data);
+
                     setLoading(false);
                 }).catch((err) => {
                     console.log(err);
