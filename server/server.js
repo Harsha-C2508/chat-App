@@ -1,24 +1,37 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const { data } = require("./data/data"); 
 const ConnectDB = require("./Config/db");
 const userRoutes = require("./Routes/userRoutes");
 const { notFound, errorHandler } = require("./Middlewares/errorMiddleware");
 const chatRoutes = require("./Routes/chatRoutes")
 const messageRoutes = require("./Routes/messageRoutes")
+const path = require("path");
+
 dotenv.config()
 
 ConnectDB()
 const app = express(); 
 
 app.use(express.json()) // to accept JSON data from frontend
-app.get("/", (req, res) => {
-    res.send("API of chit chat is running")
-})
 
 app.use('/api/user', userRoutes);
 app.use('/api/chat', chatRoutes );
 app.use('/api/message', messageRoutes);
+
+// ------------------------------------deployment------------------------------------------
+const __dirname1 = path.resolve();
+if(process.env.NODE_ENV==="production") { 
+    app.use(express.static(path.join(__dirname1,"/client/build")));
+
+    app.get("*", (req,res) =>
+        res.sendFile(path.resolve(__dirname1,"client","build","index.html"))
+    );
+} else {
+    app.get("/", (req, res) => {
+        res.send("API of chit chat is running")
+    });
+}
+// ------------------------------------------------------------------------------------
 app.use( notFound );
 app.use( errorHandler );
 
