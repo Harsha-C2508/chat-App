@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-bg-base: #1e1e2e;
+  --color-bg-page: #111118;
+  --color-bg-elevated: #252535;
+  --color-bg-input: #252535;
+  --color-bg-muted: #2a2a3e;
+  --color-bg-hover: #2e2e45;
+  --color-border: #2e2e42;
+  --color-border-strong: #3a3a55;
+  --color-text-primary: #f0f0f5;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #9ca3af;
+  --color-text-faint: #6b7280;
+  --color-accent: #5b7cf6;
+  --color-accent-soft: rgba(91, 124, 246, 0.15);
+  --color-online: #10b981;
+  --color-danger: #f43f5e;
+  --color-bubble-other: #2a2a3e;
+  --color-bubble-mine: #5b7cf6;
+  --color-bubble-mine-text: #ffffff;
+  --color-bubble-other-text: #e5e7eb;
+  --color-shadow: rgba(0, 0, 0, 0.6);
+  --font-family: 'Inter', system-ui, sans-serif;
+}
