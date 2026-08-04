@@ -339,15 +339,12 @@ const MyChats = ({ fetchAgain, setFetchAgain, onOpenProfile, onCloseProfile, sho
     const seen = new Map();
     const deduped = [];
     for (const chat of list || []) {
-      if (chat.isGroupChat) {
+      const key = chat.isGroupChat
+        ? String(chat._id)
+        : (chat.users?.find(u => u?._id && String(u._id) !== String(loggedUser?._id))?._id || chat._id);
+      if (!seen.has(String(key))) {
+        seen.set(String(key), true);
         deduped.push(chat);
-      } else {
-        const otherId = chat.users?.find(u => u?._id && String(u._id) !== String(loggedUser?._id))?._id;
-        const key = otherId ? String(otherId) : chat._id;
-        if (!seen.has(key)) {
-          seen.set(key, true);
-          deduped.push(chat);
-        }
       }
     }
     return deduped;

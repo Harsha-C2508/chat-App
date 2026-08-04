@@ -139,7 +139,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const fileInputRef = useRef(null);
   const fileInputAcceptRef = useRef('*');
   const attachMenuRef = useRef(null);
-  const { user, selectedChat, setSelectedChat, notification, setNotification, socket, socketConnected, onlineUsers } = ChatState();
+  const { user, selectedChat, setSelectedChat, setNotification, socket, socketConnected, onlineUsers } = ChatState();
   const selectedChatRef = useRef(selectedChat);
 
   const authHeaders = () => ({ Authorization: `Bearer ${user.token}` });
@@ -512,7 +512,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           </div>
         )}
         {istyping && (
-          <div style={{ paddingTop: '4px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', paddingTop: '6px', paddingLeft: '38px' }}>
             <Lottie options={defaultOptions} width={48} style={{ margin: 0 }} />
           </div>
         )}

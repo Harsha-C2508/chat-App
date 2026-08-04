@@ -1,4 +1,3 @@
-import { ChatState } from "../../Context/ChatProvider";
 import SingleChat from "./model/SingleChat";
 import { C } from "../../config/themeColors";
 

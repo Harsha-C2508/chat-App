@@ -1,7 +1,5 @@
 import React from 'react';
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-
 const AVATAR_COLORS = [
   '#5b7cf6', '#a855f7', '#10b981', '#f43f5e',
   '#f59e0b', '#06b6d4', '#ec4899', '#8b5cf6',

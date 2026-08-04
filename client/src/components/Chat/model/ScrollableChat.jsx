@@ -300,6 +300,7 @@ const ScrollableChat = ({ messages, onDeleteMessage, chat, highlightMessageId })
   return (
     <ScrollableFeed>
       {messages && messages.map((m, i) => {
+        if (!m?.sender) return null;
         const isMine = String(m.sender._id) === String(user._id);
         const showAvatar = isSameSender(messages, m, i, user._id) || isLastMessage(messages, i, user._id);
         const smallGap = isSameUser(messages, m, i, user._id);
