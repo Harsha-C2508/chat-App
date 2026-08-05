@@ -1,17 +1,18 @@
 const sid = (id) => String(id ?? '');
+const getSenderId = (msg) => msg?.sender?._id;
 
 export const isSameSenderMargin = (messages, m, i, userId) => {
   if (
     i < messages.length - 1 &&
-    sid(messages[i + 1].sender._id) === sid(m.sender._id) &&
-    sid(messages[i].sender._id) !== sid(userId)
+    sid(getSenderId(messages[i + 1])) === sid(getSenderId(m)) &&
+    sid(getSenderId(messages[i])) !== sid(userId)
   )
     return 33;
   else if (
     (i < messages.length - 1 &&
-      sid(messages[i + 1].sender._id) !== sid(m.sender._id) &&
-      sid(messages[i].sender._id) !== sid(userId)) ||
-    (i === messages.length - 1 && sid(messages[i].sender._id) !== sid(userId))
+      sid(getSenderId(messages[i + 1])) !== sid(getSenderId(m)) &&
+      sid(getSenderId(messages[i])) !== sid(userId)) ||
+    (i === messages.length - 1 && sid(getSenderId(messages[i])) !== sid(userId))
   )
     return 0;
   else return "auto";
@@ -20,22 +21,22 @@ export const isSameSenderMargin = (messages, m, i, userId) => {
 export const isSameSender = (messages, m, i, userId) => {
   return (
     i < messages.length - 1 &&
-    (sid(messages[i + 1].sender._id) !== sid(m.sender._id) ||
-      messages[i + 1].sender._id === undefined) &&
-    sid(messages[i].sender._id) !== sid(userId)
+    (sid(getSenderId(messages[i + 1])) !== sid(getSenderId(m)) ||
+      getSenderId(messages[i + 1]) === undefined) &&
+    sid(getSenderId(messages[i])) !== sid(userId)
   );
 };
 
 export const isLastMessage = (messages, i, userId) => {
   return (
     i === messages.length - 1 &&
-    sid(messages[messages.length - 1].sender._id) !== sid(userId) &&
-    messages[messages.length - 1].sender._id
+    sid(getSenderId(messages[messages.length - 1])) !== sid(userId) &&
+    getSenderId(messages[messages.length - 1])
   );
 };
 
 export const isSameUser = (messages, m, i) => {
-  return i > 0 && sid(messages[i - 1].sender._id) === sid(m.sender._id);
+  return i > 0 && sid(getSenderId(messages[i - 1])) === sid(getSenderId(m));
 };
 
 export const getSender = (loggedUser, users) => {

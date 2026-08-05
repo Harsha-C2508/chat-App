@@ -56,7 +56,7 @@ export const getChatWallpaper = (userId, chatId) => {
 export const saveChatWallpaper = (userId, chatId, wallpaper) => {
   if (!userId || !chatId) return;
   const all = readAll();
-  if (!wallpaper || wallpaper.type === 'preset' && wallpaper.id === 'default') {
+  if (!wallpaper || (wallpaper.type === 'preset' && wallpaper.id === 'default')) {
     delete all[storageKey(userId, chatId)];
   } else {
     all[storageKey(userId, chatId)] = wallpaper;
@@ -65,7 +65,7 @@ export const saveChatWallpaper = (userId, chatId, wallpaper) => {
 };
 
 export const buildWallpaperStyles = (wallpaper) => {
-  if (!wallpaper || wallpaper.type === 'preset' && wallpaper.id === 'default') {
+  if (!wallpaper || (wallpaper.type === 'preset' && wallpaper.id === 'default')) {
     return { container: { backgroundColor: 'var(--color-bg-base)' }, overlay: 0 };
   }
 

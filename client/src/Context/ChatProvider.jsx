@@ -60,6 +60,7 @@ const ChatProvider = ({ children }) => {
       setSocketConnected(false);
       setOnlineUsers([]);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?._id]);
 
   const value = useMemo(() => ({
