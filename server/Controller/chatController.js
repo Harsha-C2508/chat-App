@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler")
 const Chat = require("../models/chatModel")
 const User = require("../models/userModel")
+const Message = require("../models/messageModel")
 
 const accessChat = asyncHandler(async(req,res)=> {
     const { userId } = req.body;
@@ -10,9 +11,8 @@ const accessChat = asyncHandler(async(req,res)=> {
     var isChat = await Chat.find({
         isGroupChat: false,
         $and: [
-            {users:{$elemMatch:{eq:req.user._id}}},
-            {users:{$elemMatch:{eq: userId}}},
-
+            {users:{$elemMatch:{$eq:req.user._id}}},
+            {users:{$elemMatch:{$eq: userId}}},
         ]
     })
     .populate("users","-password")
@@ -176,11 +176,45 @@ const addToGroup = asyncHandler(async(req,res)=> {
     }
 })
 
+const leaveChat = asyncHandler(async (req, res) => {
+    const { chatId } = req.params;
+
+    const chat = await Chat.findById(chatId);
+    if (!chat) {
+        res.status(404);
+        throw new Error("Chat not found");
+    }
+
+    const isMember = chat.users.some((id) => String(id) === String(req.user._id));
+    if (!isMember) {
+        res.status(403);
+        throw new Error("You are not part of this chat");
+    }
+
+    if (chat.isGroupChat) {
+        const updated = await Chat.findByIdAndUpdate(
+            chatId,
+            { $pull: { users: req.user._id } },
+            { new: true }
+        )
+            .populate("users", "-password")
+            .populate("groupAdmin", "-password");
+
+        res.json({ chatId, left: true, chat: updated });
+        return;
+    }
+
+    await Message.deleteMany({ chat: chatId });
+    await Chat.findByIdAndDelete(chatId);
+    res.json({ chatId, deleted: true });
+});
+
 module.exports = {
     createGroupChat,
     fetchChat,
     accessChat,
     removeFromGroup,
     renameGroup,
-    addToGroup
+    addToGroup,
+    leaveChat,
 }
