@@ -72,12 +72,15 @@ app.use( notFound );
 app.use( errorHandler );
 
 const PORT = process.env.PORT || 5000
-const server = app.listen(PORT , console.log(`server started at ${PORT}`));
+const server = app.listen(PORT, "0.0.0.0", () => {
+    console.log(`server started at ${PORT}`);
+});
 
+const clientOrigin = process.env.CLIENT_URL || "http://localhost:3000";
 const io = require('socket.io')(server,{
     pingTimeout: 60000,
     cors :{
-        origin : "http://localhost:3000", 
+        origin : clientOrigin,
     }
 })
 

@@ -3,7 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import { ChatContext, readStoredUser } from './ChatContext';
 
-const ENDPOINT = 'http://localhost:5000';
+const ENDPOINT =
+  process.env.REACT_APP_API_URL ||
+  (process.env.NODE_ENV === 'production' ? window.location.origin : 'http://localhost:5000');
 
 const ChatProvider = ({ children }) => {
   const [user, setUser] = useState(readStoredUser);
