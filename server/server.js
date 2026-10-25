@@ -13,9 +13,14 @@ const uploadRoutes = require("./Routes/uploadRoutes")
 const fs = require("fs");
 const { detectMimeFromFile } = require("./utils/fileMime");
 
+const cors = require("cors");
+
 ConnectDB()
 const app = express();
 app.set("io", null);
+
+const clientOrigin = process.env.CLIENT_URL || "http://localhost:3000";
+app.use(cors({ origin: clientOrigin, credentials: true }));
 
 // Increase JSON body limit to support base64 file uploads (up to ~34MB for 25MB files)
 app.use(express.json({ limit: "35mb" }));
