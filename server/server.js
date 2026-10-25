@@ -21,6 +21,7 @@ app.set("io", null);
 
 const clientOrigin = process.env.CLIENT_URL || "http://localhost:3000";
 app.use(cors({ origin: clientOrigin, credentials: true }));
+app.options("*", cors({ origin: clientOrigin, credentials: true }));
 
 // Increase JSON body limit to support base64 file uploads (up to ~34MB for 25MB files)
 app.use(express.json({ limit: "35mb" }));
@@ -64,9 +65,10 @@ const __dirname1 = path.resolve();
 if(process.env.NODE_ENV==="production") { 
     app.use(express.static(path.join(__dirname1,"/client/build")));
 
-    app.get("*", (req,res) =>
-        res.sendFile(path.resolve(__dirname1,"client","build","index.html"))
-    );
+    app.get("*", (req,res) => {
+        if (req.path.startsWith("/api/")) return res.status(404).json({ message: "Not found" });
+        res.sendFile(path.resolve(__dirname1,"client","build","index.html"));
+    });
 } else {
     app.get("/", (req, res) => {
         res.send("API of chit chat is running")
